@@ -3,29 +3,15 @@ import Head from "next/head";
 import { SignIn, SignInButton, SignOutButton, useUser } from "@clerk/nextjs";
 import { api } from "~/utils/api";
 import { type z } from "zod";
+import Link from "next/link";
 
 export interface Project {
   id: z.ZodString;
   name: z.ZodString;
   description: z.ZodString;
   url: z.ZodString;
-  ownerId?: z.ZodString;
+  ownerId: z.ZodString;
 }
-
-/*
-model Project {
-    id          String   @id @default(cuid())
-    name        String   @db.VarChar(255)
-    description String?  @db.VarChar(255)
-    url         String?  @db.VarChar(255)
-    createdAt   DateTime @default(now())
-    updatedAt   DateTime @updatedAt
-    ownerId     String
-    owner       User     @relation(fields: [ownerId], references: [id])
-
-    @@index([ownerId])
-}
-*/
 
 export const UploadProjectWizard = () => {
   const { user } = useUser();
@@ -45,7 +31,11 @@ export const ProjectsList = () => {
   return (
     <>
       {projectList?.map((project) => (
-        <div key={project.id}>{project.name}</div>
+        <div key={project.id}>
+          <Link href={project.url !== null ? project.url : ""}>
+            <span>{project.name}</span>
+          </Link>
+        </div>
       ))}
     </>
   );

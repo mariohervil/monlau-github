@@ -1,8 +1,8 @@
-import { clerkClient, sessions } from "@clerk/nextjs/dist/api";
-import { z } from "zod";
-
 import { createTRPCRouter, publicProcedure } from "~/server/api/trpc";
 
 export const projectRouter = createTRPCRouter({
-  
+  getAll: publicProcedure.query(async ({ ctx }) => {
+    const projects = await ctx.prisma.project.findMany();
+    return projects;
+  }),
 });

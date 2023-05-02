@@ -1,7 +1,7 @@
 /* eslint-disable @next/next/no-img-element */
 import { type NextPage } from "next";
 import Head from "next/head";
-import { SignIn, SignInButton, SignOutButton, useUser } from "@clerk/nextjs";
+import { SignIn, SignInButton, SignOutButton, useUser, SignedIn, UserButton } from "@clerk/nextjs";
 import { api } from "~/utils/api";
 
 const UserSide = () => {
@@ -14,11 +14,9 @@ const UserSide = () => {
     <div className="border w-full">
       <div className="flex flex-col gap-2">
         <div className="flex flex-row justify-center">
-          <img
-            src={user.profileImageUrl}
-            alt="Profile Image"
-            className="h-14 w-14 rounded-full object-cover"
-          />
+        <SignedIn>
+        <UserButton />
+      </SignedIn>
         </div>
         <span className="text-center">{user.fullName}</span>
         <span className="text-center">

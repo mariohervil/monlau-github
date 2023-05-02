@@ -18,6 +18,8 @@ import { type CreateNextContextOptions } from "@trpc/server/adapters/next";
 
 import { prisma } from "~/server/db";
 
+import { getAuth, clerkClient } from "@clerk/nextjs/server";
+import { type User } from "@clerk/nextjs/api";
 type CreateContextOptions = Record<string, never>;
 
 /**
@@ -30,11 +32,6 @@ type CreateContextOptions = Record<string, never>;
  *
  * @see https://create.t3.gg/en/usage/trpc#-serverapitrpcts
  */
-const createInnerTRPCContext = (_opts: CreateContextOptions) => {
-  return {
-    prisma,
-  };
-};
 
 /**
  * This is the actual context you will use in your router. It will be used to process every request
@@ -42,8 +39,16 @@ const createInnerTRPCContext = (_opts: CreateContextOptions) => {
  *
  * @see https://trpc.io/docs/context
  */
-export const createTRPCContext = (_opts: CreateNextContextOptions) => {
-  return createInnerTRPCContext({});
+export const createTRPCContext = (opts: CreateNextContextOptions) => {
+  // const user = userId ? await clerkClient.users.getUser(userId) : null;
+
+  const session = getAuth(opts.req);
+  const user = session.user;
+  // const user = await getUser();
+  return {
+    prisma,
+    currentUser: user,
+  };
 };
 
 /**
@@ -53,7 +58,7 @@ export const createTRPCContext = (_opts: CreateNextContextOptions) => {
  * ZodErrors so that you get typesafety on the frontend if your procedure fails due to validation
  * errors on the backend.
  */
-import { initTRPC } from "@trpc/server";
+import { TRPCError, initTRPC } from "@trpc/server";
 import superjson from "superjson";
 import { ZodError } from "zod";
 
@@ -85,6 +90,17 @@ const t = initTRPC.context<typeof createTRPCContext>().create({
  */
 export const createTRPCRouter = t.router;
 
+const enforceUserIsAuthed = t.middleware(async ({ next, ctx }) => {
+  if (!ctx.currentUser) {
+    throw new TRPCError({ code: "UNAUTHORIZED" });
+  }
+  return next({
+    ctx: {
+      currentUser: ctx.currentUser,
+    },
+  });
+});
+
 /**
  * Public (unauthenticated) procedure
  *
@@ -93,3 +109,5 @@ export const createTRPCRouter = t.router;
  * are logged in.
  */
 export const publicProcedure = t.procedure;
+
+export const protectedProcedure = t.procedure.use(enforceUserIsAuthed);

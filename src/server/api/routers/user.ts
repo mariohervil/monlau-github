@@ -6,15 +6,12 @@ import { createTRPCRouter, publicProcedure } from "~/server/api/trpc";
 export const userRouter = createTRPCRouter({
   getAllProjects: publicProcedure
     .input(z.string())
-    .query(async (opts) => {
-      const projects = await opts.ctx.prisma.project.findMany({
+    .query(async ({ input, ctx }) => {
+      const projects = await ctx.prisma.project.findMany({
         where: {
-          ownerId: opts.input,
+          ownerId: input,
         },
       });
       return projects;
     }),
 });
-
-
-

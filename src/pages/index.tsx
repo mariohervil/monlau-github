@@ -1,7 +1,14 @@
 /* eslint-disable @next/next/no-img-element */
 import { type NextPage } from "next";
 import Head from "next/head";
-import { SignIn, SignInButton, SignOutButton, useUser, SignedIn, UserButton } from "@clerk/nextjs";
+import {
+  SignIn,
+  SignInButton,
+  SignOutButton,
+  useUser,
+  SignedIn,
+  UserButton,
+} from "@clerk/nextjs";
 import { api } from "~/utils/api";
 
 const UserSide = () => {
@@ -11,12 +18,10 @@ const UserSide = () => {
   }
 
   return (
-    <div className="border w-full">
+    <div className="w-full border">
       <div className="flex flex-col gap-2">
         <div className="flex flex-row justify-center">
-        <SignedIn>
-        <UserButton />
-      </SignedIn>
+          <UserButton />
         </div>
         <span className="text-center">{user.fullName}</span>
         <span className="text-center">
@@ -37,8 +42,12 @@ const Home: NextPage = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main className="flex min-h-screen flex-col items-center justify-center">
-        <div className="absolute top-0 z-10 bg-white w-full">
-          {user.isSignedIn && <UserSide />}
+        <div className="absolute top-0 z-10 w-full bg-white">
+          {user.isSignedIn && (
+            <SignedIn>
+              <UserSide />
+            </SignedIn>
+          )}
         </div>
 
         <div>

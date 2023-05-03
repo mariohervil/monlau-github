@@ -1,4 +1,4 @@
-import { type NextPage } from "next";
+import { type NextComponentType, type NextPage } from "next";
 import Head from "next/head";
 import { SignIn, SignInButton, SignOutButton, useUser } from "@clerk/nextjs";
 import { api } from "~/utils/api";
@@ -21,7 +21,7 @@ export const UploadProjectWizard = () => {
   return <div></div>;
 };
 
-export const ProjectsList = () => {
+export const ProjectsList: NextComponentType = () => {
   const { user } = useUser();
   if (!user) {
     return null;

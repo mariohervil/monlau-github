@@ -21,7 +21,7 @@ export const UploadProjectWizard = () => {
   return <div></div>;
 };
 
-export const ProjectsList = () => {
+export const ProjectsList: NextComponentType = () => {
   const { user } = useUser();
   if (!user) {
     return null;

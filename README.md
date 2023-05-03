@@ -1,4 +1,4 @@
-# Monlau GitHub
+# Monlau GitHub (WIP)
 Monlau GitHub es una plataforma web desarrollada para que los alumnos del centro de estudios Monlau puedan subir sus proyectos de código y compartirlos con otros estudiantes y visitantes externos. La plataforma les permite iniciar sesión a través de OAuth de GitHub y registrar sus proyectos, aunque en el propio espacio de usuario también . Además, se puede vincular su cuenta de LinkedIn para dar a conocer su perfil profesional.
 
 ### Tecnologías utilizadas

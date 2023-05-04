@@ -8,6 +8,7 @@ import {
   useUser,
   SignedIn,
   UserButton,
+  SignedOut
 } from "@clerk/nextjs";
 import { api } from "~/utils/api";
 
@@ -48,6 +49,10 @@ const Home: NextPage = () => {
               <UserSide />
             </SignedIn>
           )}
+
+          <SignedOut>
+            <div> No estás logeado </div>
+          </SignedOut>
         </div>
 
         <div>

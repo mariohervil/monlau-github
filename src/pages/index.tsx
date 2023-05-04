@@ -40,7 +40,8 @@ const UserList = () => {
     <>
       <h2>User List</h2>
       {userList?.map((user) => {
-        return <div key={user?.id}> {user?.firstName!}</div>;
+        if (!user.firstName || !user.lastName) return null;
+        return <div key={user?.id}> {user?.firstName}</div>;
       })}
     </>
   );

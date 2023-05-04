@@ -7,6 +7,8 @@ export const userRouter = createTRPCRouter({
     if (ctx.currentUser?.userId === null) {
       return null;
     }
+    console.log("object");
+    console.log(ctx.currentUser.user?.externalAccounts[0]?.emailAddress);
     const projects = await ctx.prisma.project.findMany({
       where: {
         ownerId: ctx.currentUser?.userId,
@@ -18,15 +20,17 @@ export const userRouter = createTRPCRouter({
   getGitHubProjects: publicProcedure
     .input(z.string())
     .query(async ({ input, ctx }) => {
-      const GITHUB_URL_API = "https://api.github.com/users/" + input + "/repos";
-      const response = await axios.get(GITHUB_URL_API, {
+      const GITHUB_URL_API = `https://api.github.com/users/${input}/repos`;
+      const response: AxiosResponse = await axios.get(GITHUB_URL_API, {
         headers: {
-          Authorization: "Bearer" + process.env.GITHUB_TOKEN,
+          Authorization: `Bearer ${
+            process.env?.GITHUB_TOKEN ? process.env?.GITHUB_TOKEN : ""
+          }`,
           "X-GitHub-Api-Version": "2022-11-28",
         },
       });
 
-      const data: Repository[] = response.data;
+      const data: Repository[] = response.data as Repository[];
       return data;
       /* 
  .then((response: AxiosResponse) => {

@@ -28,7 +28,10 @@ const ProjectList = () => {
           <div className="flex flex-row flex-wrap justify-center">
             {repos?.map((repo) => {
               return (
-                <div className="mb-4 w-full sm:w-1/2 md:w-1/3 lg:w-1/4 xl:w-1/5">
+                <div
+                  key={repo.id}
+                  className="mb-4 w-full sm:w-1/2 md:w-1/3 lg:w-1/4 xl:w-1/5"
+                >
                   <div className="flex h-full max-w-sm flex-col overflow-hidden rounded shadow-lg">
                     <div className="flex-grow px-6 py-4">
                       <div key={repo.id} className="mb-2 text-xl font-bold">

@@ -14,6 +14,7 @@ import { api } from "~/utils/api";
 
 const UserSide = () => {
   const { user } = useUser();
+  // console.log(user?.externalAccounts[0]?.username);
 
   if (!user) {
     return null;
@@ -29,6 +30,19 @@ const UserSide = () => {
         <span className="text-center">{user.emailAddresses?.toString()}</span>
       </div>
     </div>
+  );
+};
+
+const UserList = () => {
+  const userList = api.users.getUserList.useQuery().data;
+
+  return (
+    <>
+      <h2>User List</h2>
+      {userList?.map((user) => {
+        return <div key={user.id}> {`${user.firstName} ${user.lastName}`}</div>;
+      })}
+    </>
   );
 };
 
@@ -52,7 +66,7 @@ const Home: NextPage = () => {
             <div> No estás logeado </div>
           </SignedOut>
         </div>
-
+        <UserList />
         <div>
           {!user.isSignedIn && <SignInButton />}
 

@@ -62,11 +62,11 @@ const Home: NextPage = () => {
               <UserSide />
             </SignedIn>
           )}
+        <UserList />
           <SignedOut>
             <div> No estás logeado </div>
           </SignedOut>
         </div>
-        <UserList />
         <div>
           {!user.isSignedIn && <SignInButton />}
 

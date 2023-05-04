@@ -31,14 +31,18 @@ const ProjectList = () => {
                 <div className="mb-4 w-full sm:w-1/2 md:w-1/3 lg:w-1/4 xl:w-1/5">
                   <div className="flex h-full max-w-sm flex-col overflow-hidden rounded shadow-lg">
                     <div className="flex-grow px-6 py-4">
-                      <div className="mb-2 text-xl font-bold">{repo.name}</div>
-                      <p className="text-base text-gray-700">
+                      <div key={repo.id} className="mb-2 text-xl font-bold">
+                        {repo.name}
+                      </div>
+                      <p key={repo.id} className="text-base text-gray-700">
                         {repo.description}
                       </p>
                     </div>
                     <div className="mt-auto px-6 pb-2 pt-4">
                       <span className="mb-2 mr-2 inline-block rounded-full bg-gray-200 px-3 py-1 text-sm font-semibold text-gray-700">
-                        <Link href={repo.html_url}>Ir al proyecto</Link>
+                        <Link key={repo.id} href={repo.html_url}>
+                          Ir al proyecto
+                        </Link>
                       </span>
                     </div>
                   </div>

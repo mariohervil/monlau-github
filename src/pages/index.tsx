@@ -40,7 +40,7 @@ const UserList = () => {
     <>
       <h2>User List</h2>
       {userList?.map((user) => {
-        return <div key={user.id}> {user?.firstName}</div>;
+        return <div key={user?.id}> {user?.firstName!}</div>;
       })}
     </>
   );
@@ -62,7 +62,7 @@ const Home: NextPage = () => {
               <UserSide />
             </SignedIn>
           )}
-        <UserList />
+          <UserList />
           <SignedOut>
             <div> No estás logeado </div>
           </SignedOut>

@@ -56,7 +56,7 @@ const ProjectList = () => {
 const UserProjects: NextPage = () => {
   return (
     <>
-      <ProjectList />
+     
     </>
   );
 };

@@ -43,7 +43,6 @@ const ProjectList = () => {
                     </div>
                   </div>
                 </div>
-                //#6c47ff
               );
             })}
           </div>

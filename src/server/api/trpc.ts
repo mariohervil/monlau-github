@@ -43,11 +43,11 @@ export const createTRPCContext = (opts: CreateNextContextOptions) => {
   // const user = userId ? await clerkClient.users.getUser(userId) : null;
 
   const session = getAuth(opts.req);
-  const user = session.user;
+  const user = session.userId;
   // const user = await getUser();
   return {
     prisma,
-    currentUser: user,
+    currentUser: session,
   };
 };
 

@@ -22,12 +22,8 @@ export const UploadProjectWizard = () => {
 };
 
 export const ProjectsList: NextComponentType = () => {
-  const { user } = useUser();
-  if (!user) {
-    return null;
-  }
   // const projectList = api.projects.getAll.useQuery().data;
-  const projectList = api.users.getAllProjects.useQuery(user.id).data;
+  const projectList = api.users.getAllProjects.useQuery().data;
 
   console.log(projectList);
   return (

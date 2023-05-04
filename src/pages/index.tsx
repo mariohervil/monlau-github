@@ -14,6 +14,7 @@ import { api } from "~/utils/api";
 
 const UserSide = () => {
   const { user } = useUser();
+
   if (!user) {
     return null;
   }
@@ -25,9 +26,7 @@ const UserSide = () => {
           <UserButton />
         </div>
         <span className="text-center">{user.fullName}</span>
-        <span className="text-center">
-          {user.primaryEmailAddress?.toString()}
-        </span>
+        <span className="text-center">{user.emailAddresses?.toString()}</span>
       </div>
     </div>
   );
@@ -49,7 +48,6 @@ const Home: NextPage = () => {
               <UserSide />
             </SignedIn>
           )}
-
           <SignedOut>
             <div> No estás logeado </div>
           </SignedOut>
@@ -66,4 +64,4 @@ const Home: NextPage = () => {
   );
 };
 
-export default Home; 
+export default Home;

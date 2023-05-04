@@ -35,7 +35,7 @@ const UserSide = () => {
 
 const UserList = () => {
   const userList = api.users.getUserList.useQuery().data;
-
+  console.log(userList);
   return (
     <>
       <h2>User List</h2>

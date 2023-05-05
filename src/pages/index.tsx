@@ -42,7 +42,7 @@ const UserList = () => {
       <h2>User List</h2>
       {userList?.map((user) => {
         if (!user.firstName) return null;
-        return <div key={user?.id}>{user?.externalAccounts[0]?.username}</div>;
+        return <div key={user?.id}>{user?.username}</div>;
       })}
     </>
   );

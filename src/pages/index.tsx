@@ -14,7 +14,6 @@ import { api } from "~/utils/api";
 
 const UserSide = () => {
   const { user } = useUser();
-  // console.log(user?.externalAccounts[0]?.username);
 
   if (!user) {
     return null;
@@ -27,7 +26,9 @@ const UserSide = () => {
           <UserButton />
         </div>
         <span className="text-center">{user.fullName}</span>
-        <span className="text-center">{user.emailAddresses?.toString()}</span>
+        <span className="text-center">
+          {user.primaryEmailAddress?.toString()}
+        </span>
       </div>
     </div>
   );
@@ -41,11 +42,7 @@ const UserList = () => {
       <h2>User List</h2>
       {userList?.map((user) => {
         if (!user.firstName) return null;
-        return (
-          <div key={user?.id}>
-            {user?.firstName} {user?.lastName}
-          </div>
-        );
+        return <div key={user?.id}>{user?.externalAccounts[0]?.username}</div>;
       })}
     </>
   );

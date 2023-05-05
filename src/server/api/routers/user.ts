@@ -50,4 +50,10 @@ export const userRouter = createTRPCRouter({
     const userList = await ctx.clerk.users.getUserList();
     return userList;
   }),
+
+  getUsernames: publicProcedure.query(async ({ ctx }) => {
+    const userList = await ctx.clerk.users.getUserList();
+
+    return userList.map((user) => user.username);
+  }),
 });

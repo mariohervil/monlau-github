@@ -14,7 +14,7 @@ const ProjectList = () => {
 
   const repos = api.users.getGitHubProjects.useQuery(githubUsername).data;
   // TODO: Hay problemas con juntar proyectos del usuario y de github -> Es viable guardar información de los repositorios en GitHub? En otra tabla de Prisma?
-  // TODO: Rutas dinámicas? Cogiendo user id o user de github? Backend token? Ej: monlau.codes/mariohervil/projects o monlau.codes/{user id de clerk}/projects
+
 
   return (
     <>

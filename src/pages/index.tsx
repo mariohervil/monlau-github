@@ -34,20 +34,6 @@ const UserSide = () => {
   );
 };
 
-const UserList = () => {
-  const userList = api.users.getUserList.useQuery().data;
-  console.log(userList);
-  return (
-    <>
-      <h2>User List</h2>
-      {userList?.map((user) => {
-        if (!user.username) return null;
-        return <div key={user?.id}>{user?.username}</div>;
-      })}
-    </>
-  );
-};
-
 const Home: NextPage = () => {
   const user = useUser();
   return (
@@ -64,7 +50,7 @@ const Home: NextPage = () => {
               <UserSide />
             </SignedIn>
           )}
-          <UserList />
+
           <SignedOut>
             <div> No estás logeado </div>
           </SignedOut>

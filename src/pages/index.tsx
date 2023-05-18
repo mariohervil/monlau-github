@@ -20,13 +20,31 @@ const UserSide = () => {
   }
 
   return (
-    <div className="w-full border">
-      <div className="flex flex-col gap-2">
-        <div className="flex flex-row justify-center">
+    <div className="border-bottom flex w-full flex-row justify-center">
+      <div className={"flex flex-col"}>
+        <div className={"flex flex-row text-right"}>
+          <a href={`https://github.com/${user.externalAccounts[0]?.username}`}>
+            {`github/${user.externalAccounts[0]?.username}`}
+          </a>
+        </div>
+        {user.externalAccounts[1] ? (
+          <div className={"flex flex-row  text-right"}>
+            {`linkedin/${user.externalAccounts[1].firstName}`}
+          </div>
+        ) : (
+          <></>
+        )}
+      </div>
+
+      <div className="flex flex-col">
+        <div className="flex flex-row">
           <UserButton />
         </div>
-        <span className="text-center">{user.fullName}</span>
-        <span className="text-center">
+      </div>
+
+      <div className={"flex flex-row flex-col justify-center"}>
+        <span className={"flex flex-row text-left"}>{user.fullName}</span>
+        <span className={"flex flex-row text-left"}>
           {user.primaryEmailAddress?.toString()}
         </span>
       </div>
@@ -44,20 +62,14 @@ const Home: NextPage = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main className="flex min-h-screen flex-col items-center justify-center">
-        <div className="absolute top-0 z-10 w-full bg-white">
+        <div className="absolute top-0 z-10 w-full bg-white"></div>
+        <div>
           {user.isSignedIn && (
             <SignedIn>
               <UserSide />
             </SignedIn>
           )}
-
-          <SignedOut>
-            <div> No estás logeado </div>
-          </SignedOut>
-        </div>
-        <div>
           {!user.isSignedIn && <SignInButton />}
-
           {!!user.isSignedIn && <SignOutButton />}
         </div>
         <SignIn path="/sign-in" routing="path" signUpUrl="/sign-up" />

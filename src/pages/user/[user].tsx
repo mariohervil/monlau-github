@@ -18,7 +18,7 @@ const UserProfile = (props: UserProfileProps) => {
   const { data, isLoading: userLoading } =
     api.users.getUserInfoByUsername.useQuery(username);
 
-  if (userLoading)
+  if (userLoading || !data)
     return (
       <div className="flex grow">
         <LoadingPage />
@@ -29,7 +29,12 @@ const UserProfile = (props: UserProfileProps) => {
     <>
       <div className="flex flex-col">
         <div className={"flex flex-row justify-center"}>
-          <Image src={data?.profileImageUrl!} alt={"Profile Image"} width={56} height={56} />
+          <Image
+            src={data?.profileImageUrl}
+            alt={"Profile Image"}
+            width={56}
+            height={56}
+          />
         </div>
       </div>
     </>

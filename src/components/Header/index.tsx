@@ -13,9 +13,7 @@ const Header = () => {
               <FaPlusSquare
                 size={22.5}
                 className={"cursor-pointer text-primary"}
-                onClick={async () => {
-                  await router.push("/projects/add-project");
-                }}
+                onClick={async () => await router.push("/projects/add-project")}
               />
             </li>
             <li>

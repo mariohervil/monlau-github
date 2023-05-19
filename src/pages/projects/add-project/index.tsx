@@ -1,5 +1,5 @@
 import { SignedIn, useUser } from "@clerk/nextjs";
-import { ChangeEvent, useEffect, useState } from "react";
+import { ChangeEvent, FormEvent, useEffect, useState } from "react";
 import { api } from "~/utils/api";
 import { toast } from "react-hot-toast";
 
@@ -38,7 +38,7 @@ const ProjectForm = () => {
       },
     });
 
-  const handleSubmit = (e: any) => {
+  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (!nameInput || !descriptionInput || !urlInput || !priorityInput) {
       toast.error("Por favor, rellena todos los campos.");
@@ -60,6 +60,7 @@ const ProjectForm = () => {
           className={
             "xs:w-full w-full rounded-lg px-40 py-20 align-middle shadow-xl shadow-gray-300 xl:w-2/5"
           }
+        onSubmit={(e) => handleSubmit(e)}
         >
           <label htmlFor="name" className="mb-2 block font-bold">
             Nombre:
@@ -136,7 +137,7 @@ const ProjectForm = () => {
             <button
               type="submit"
               className={"btn-primary btn w-2/6 rounded-xl"}
-              onClick={handleSubmit}
+              
             >
               Subir
             </button>

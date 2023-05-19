@@ -15,7 +15,13 @@ import { api } from "~/utils/api";
 const UserSide = () => {
   const { user } = useUser();
 
-  if (!user) {
+  if (
+    !user ||
+    !user.primaryEmailAddress ||
+    !user.externalAccounts ||
+    !user.fullName ||
+    !user.profileImageUrl
+  ) {
     return null;
   }
 
@@ -67,7 +73,6 @@ const Home: NextPage = () => {
           {!user.isSignedIn && <SignInButton />}
           {!!user.isSignedIn && <SignOutButton />}
         </div>
-        
       </main>
     </>
   );

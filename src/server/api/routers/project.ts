@@ -60,6 +60,7 @@ export const projectRouter = createTRPCRouter({
     )
     .mutation(async ({ input, ctx }) => {
       const { name, description, url, priority, pinned } = input;
+      if (!ctx.currentUser?.userId) throw new Error("Not logged in");
       const projects = await ctx.prisma.project.create({
         data: {
           name,
@@ -67,7 +68,7 @@ export const projectRouter = createTRPCRouter({
           url,
           priority,
           pinned,
-          ownerId: ctx.currentUser?.userId!,
+          ownerId: ctx.currentUser?.userId,
         },
       });
       return projects;

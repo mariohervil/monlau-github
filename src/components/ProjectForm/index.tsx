@@ -1,5 +1,5 @@
 import { SignedIn, useUser } from "@clerk/nextjs";
-import { useEffect, useState } from "react";
+import { ChangeEvent, useEffect, useState } from "react";
 import { api } from "~/utils/api";
 import { toast } from "react-hot-toast";
 
@@ -22,7 +22,7 @@ const ProjectForm = () => {
     );
   }, [nameInput, descriptionInput, urlInput, priorityInput, pinnedIsChecked]);
 
-  const handleCheckboxChange = (event: any) => {
+  const handleCheckboxChange = (event: ChangeEvent<HTMLInputElement>) => {
     setPinnedIsChecked(event.target.checked as boolean);
   };
 

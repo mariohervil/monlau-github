@@ -23,7 +23,7 @@ const ProjectForm = () => {
   }, [nameInput, descriptionInput, urlInput, priorityInput, pinnedIsChecked]);
 
   const handleCheckboxChange = (event: any) => {
-    setPinnedIsChecked(event.target.checked);
+    setPinnedIsChecked(event.target.checked as boolean);
   };
 
   const ctx = api.useContext();

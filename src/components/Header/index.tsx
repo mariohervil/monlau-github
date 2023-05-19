@@ -13,7 +13,7 @@ const Header = () => {
               <FaPlusSquare
                 size={22.5}
                 className={"cursor-pointer text-primary"}
-                onClick={() => router.push("/projects/add-project")}
+                onClick={() => {router.push("/projects/add-project")}}
               />
             </li>
             <li>

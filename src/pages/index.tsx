@@ -20,7 +20,8 @@ const UserSide = () => {
     !user.primaryEmailAddress ||
     !user.externalAccounts ||
     !user.fullName ||
-    !user.profileImageUrl
+    !user.profileImageUrl ||
+    !user.externalAccounts[0]?.username
   ) {
     return null;
   }

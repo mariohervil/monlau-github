@@ -3,6 +3,38 @@ import { useRouter } from "next/router";
 import { api } from "~/utils/api";
 import z from "zod";
 import { useUser } from "@clerk/nextjs";
+import Image from "next/image";
+import { User } from "@clerk/clerk-sdk-node";
+import { useEffect, useState } from "react";
+import { LoadingPage } from "~/components/Loading";
+interface UserProfileProps {
+  username: string;
+}
+
+const UserProfile = (props: UserProfileProps) => {
+  const { username } = props;
+  const [user, setUser] = useState<User | undefined>();
+
+  const { data, isLoading: userLoading } =
+    api.users.getUserInfoByUsername.useQuery(username);
+
+  if (userLoading)
+    return (
+      <div className="flex grow">
+        <LoadingPage />
+      </div>
+    );
+
+  return (
+    <>
+      <div className="flex flex-col">
+        <div className={"flex flex-row justify-center"}>
+          <Image src={data?.profileImageUrl!} alt={"Profile Image"} width={56} height={56} />
+        </div>
+      </div>
+    </>
+  );
+};
 
 const LoadingSpinner = () => {
   return (
@@ -74,7 +106,7 @@ const UserSite: NextPage = () => {
   return (
     <>
       <div className="flex flex-row justify-center">
-        <h1 className="text-bold text-3xl">{githubUsername.toUpperCase()}</h1>
+        <UserProfile username={githubUsername} />
       </div>
       <div className="container mx-auto flex flex-wrap justify-center">
         {repos?.map((repo) => {

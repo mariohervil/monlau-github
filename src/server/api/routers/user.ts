@@ -56,4 +56,11 @@ export const userRouter = createTRPCRouter({
 
     return userList.map((user) => user.username);
   }),
+
+  getUserInfoByUsername: publicProcedure
+    .input(z.string())
+    .query(async ({ input, ctx }) => {
+      const user = await ctx.clerk.users.getUserList();
+      return user.find((user) => user.username === input);
+    }),
 });

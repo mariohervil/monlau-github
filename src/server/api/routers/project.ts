@@ -1,7 +1,10 @@
-import { createTRPCRouter, publicProcedure } from "~/server/api/trpc";
+import {
+  createTRPCRouter,
+  protectedProcedure,
+  publicProcedure,
+} from "~/server/api/trpc";
 import { z } from "zod";
 import clerkClient, { type User } from "@clerk/clerk-sdk-node";
-import { Project } from "@prisma/client";
 const filterUsersForClient = (user: User) => {
   return {
     id: user.id,
@@ -45,25 +48,31 @@ export const projectRouter = createTRPCRouter({
       return projects;
     }),
 
-  inserProject: publicProcedure
+  inserProject: protectedProcedure
     .input(
       z.object({
         name: z.string(),
         description: z.string(),
-        url: z.string(),
+        url: z.string().url(),
         priority: z.number(),
-        ownerId: z.string(),
         pinned: z.boolean(),
       })
     )
-    .query(async ({ input, ctx }) => {
+    .mutation(async ({ input, ctx }) => {
+      const { name, description, url, priority, pinned } = input;
       const projects = await ctx.prisma.project.create({
-        data: input,
+        data: {
+          name,
+          description,
+          url,
+          priority,
+          pinned,
+          ownerId: ctx.currentUser?.userId!,
+        },
       });
       return projects;
     }),
 });
-
 
 /*
 export type Project = {

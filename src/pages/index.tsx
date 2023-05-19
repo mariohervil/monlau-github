@@ -64,15 +64,10 @@ const Home: NextPage = () => {
       <main className="flex min-h-screen flex-col items-center justify-center">
         <div className="absolute top-0 z-10 w-full bg-white"></div>
         <div>
-          {user.isSignedIn && (
-            <SignedIn>
-              <UserSide />
-            </SignedIn>
-          )}
           {!user.isSignedIn && <SignInButton />}
           {!!user.isSignedIn && <SignOutButton />}
         </div>
-        <SignIn path="/sign-in" routing="path" signUpUrl="/sign-up" />
+        
       </main>
     </>
   );

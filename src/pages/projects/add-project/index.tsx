@@ -1,118 +1,149 @@
-import { useUser } from "@clerk/nextjs";
-import { useState } from "react";
+import { SignedIn, useUser } from "@clerk/nextjs";
+import { useEffect, useState } from "react";
 import { api } from "~/utils/api";
+import { toast } from "react-hot-toast";
 
 const ProjectForm = () => {
   const { user } = useUser();
 
-  const [project, setProject] = useState({
-    name: "",
-    description: "",
-    url: "",
-    priority: 0,
-    ownerId: user?.id!,
-    pinned: false,
-  });
+  const [nameInput, setNameInput] = useState("");
+  const [descriptionInput, setDescriptionInput] = useState("");
+  const [urlInput, setUrlInput] = useState("");
+  const [priorityInput, setPriorityInput] = useState(0);
+  const [pinnedIsChecked, setPinnedIsChecked] = useState(false);
+
+  const handleCheckboxChange = (event: any) => {
+    setPinnedIsChecked(event.target.checked);
+  };
+
+  const ctx = api.useContext();
+
+  const { mutate, isLoading: isPosting } =
+    api.projects.inserProject.useMutation({
+      onSuccess: () => {
+        setNameInput("");
+        setDescriptionInput("");
+        setUrlInput("");
+        setPriorityInput(0);
+        setPinnedIsChecked(false);
+        void ctx.projects.getAll.invalidate();
+      },
+      onError: (e) => {
+        const errorMessage = e.data?.zodError?.fieldErrors.content;
+        if (errorMessage && errorMessage[0]) {
+          toast.error(errorMessage[0]);
+        } else {
+          toast.error("Ha fallado el envío! Por favor, inténtalo más tarde.");
+        }
+      },
+    });
 
   const handleSubmit = (e: any) => {
     e.preventDefault();
-    api.projects.inserProject.useQuery(project);
-  };
-
-  const handleChange = (e: any) => {
-    const { name, value } = e.target;
-    e.preventDefault();
-    setProject({
-      ...project,
-      [name]: value!,
+    if (!nameInput || !descriptionInput || !urlInput || !priorityInput) {
+      toast.error("Por favor, rellena todos los campos.");
+      return;
+    }
+    mutate({
+      name: nameInput,
+      description: descriptionInput,
+      url: urlInput,
+      priority: priorityInput,
+      pinned: pinnedIsChecked,
     });
   };
 
   return (
-    <div className={"flex flex-row justify-center"}>
-      <div
-        className={
-          "my-10 flex w-1/2 justify-center rounded-xl border-2 border-primary-focus"
-        }
-      >
-        <div className={"flex w-full flex-col"}>
-          <div
-            className={
-              "flex w-full flex-row justify-start rounded-t-md"
-            }
-          >
-            <h1 className={"text-2xl"}>Nuevo Proyecto</h1>
-          </div>
+    <SignedIn>
+      <div className={"flex flex-row justify-center p-5"}>
+        <form
+          className={
+            "xs:w-full w-full rounded-lg px-40 py-20 align-middle shadow-xl shadow-gray-300 xl:w-2/5"
+          }
+        >
+          <label htmlFor="name" className="mb-2 block font-bold">
+            Nombre:
+          </label>
+          <input
+            type="text"
+            id="name"
+            name="name"
+            value={nameInput}
+            className="mb-4 w-full rounded-lg border px-3 py-2"
+            placeholder="Introduce tu nombre"
+            onChange={(e) => setNameInput(e.target.value)}
+          />
+          <label htmlFor="description" className="mb-2 block font-bold">
+            Descripción:
+          </label>
+          <input
+            type="text"
+            id="description"
+            name="description"
+            value={descriptionInput}
+            className="mb-4 w-full rounded-lg border px-3 py-2"
+            placeholder="Introduce una descripción"
+            onChange={(e) => setDescriptionInput(e.target.value)}
+          />
+          <label htmlFor="url" className="mb-2 block font-bold">
+            URL:
+          </label>
+          <input
+            type="text"
+            id="url"
+            name="url"
+            value={urlInput}
+            className="mb-4 w-full rounded-lg border px-3 py-2"
+            placeholder="Introduce una URL"
+            onChange={(e) => setUrlInput(e.target.value)}
+          />
+          <label htmlFor="priority" className="mb-2 block font-bold">
+            Prioridad:
+          </label>
+          <input
+            type="number"
+            id="priority"
+            name="priority"
+            value={priorityInput}
+            className="mb-4 w-full rounded-lg border px-3 py-2"
+            placeholder="Introduce una prioridad"
+            onChange={(e) => setPriorityInput(e.target.valueAsNumber)}
+          />
 
-          <form
-            onSubmit={handleSubmit}
-            className={"flex flex-col gap-3  p-10 pb-16"}
-          >
-            <label htmlFor="name" className="mb-2 block font-bold">
-              Nombre:
-            </label>
-            <input
-              type="text"
-              id="name"
-              name="name"
-              className="mb-4 w-full rounded-lg border border-neutral px-3 py-2"
-              placeholder="Introduce tu nombre"
-            />
+          <label className="mb-2 block font-bold">Imagen:</label>
+          <input
+            type="file"
+            className="file-input-bordered file-input mb-4 w-full max-w-xs rounded-xl"
+            placeholder="Subir archivo"
+            accept="image/*"
+            name="image"
+            id="image"
+          />
 
-            <label htmlFor="description" className="mb-2 block font-bold">
-              Descripción:
-            </label>
+          <label className="label mb-10 flex cursor-pointer flex-row-reverse justify-end gap-4">
+            <span className="label-text font-bold">Fijar?</span>
             <input
-              type="text"
-              id="description"
-              name="description"
-              className="mb-4 w-full rounded-lg border border-primary px-3 py-2"
-              placeholder="Introduce una descripción"
-            />
-            <div className="form-control">
-              <label className="input-group">
-                <span>URL</span>
-                <input
-                  type="text"
-                  placeholder="github.com/username/project"
-                  className="input-bordered input w-full"
-                  name="url"
-                  onChange={handleChange}
-                />
-              </label>
-            </div>
-
-            <label htmlFor="priority" className="mb-2 block font-bold">
-              Prioridad:
-            </label>
-            <input
-              type="text"
-              id="priority"
-              name="priority"
-              className="mb-4 w-full rounded-lg border border-primary px-3 py-2"
-              placeholder="Introduce una prioridad"
-            />
-
-            <label htmlFor="pinned" className="mb-2 block font-bold">
-              Fijado:
-            </label>
-            <input
-              type="text"
-              id="pinned"
+              type="checkbox"
+              className="checkbox-primary checkbox"
               name="pinned"
-              className="mb-4 w-full rounded-lg border border-primary px-3 py-2"
-              placeholder="Introduce una indicación de si está fijado o no"
+              checked={pinnedIsChecked}
+              id="pinned"
+              onChange={handleCheckboxChange}
             />
+          </label>
 
-            <div className={'flex flex-row justify-center mt-3'}>
-              <button type={"submit"} className={"btn-primary btn w-1/5"}>
-                Submit
-              </button>
-            </div>
-          </form>
-        </div>
+          <div className={"flex flex-row justify-center"}>
+            <button
+              type="submit"
+              className={"btn-primary btn w-2/6 rounded-xl"}
+              onClick={handleSubmit}
+            >
+              Subir
+            </button>
+          </div>
+        </form>
       </div>
-    </div>
+    </SignedIn>
   );
 };
 

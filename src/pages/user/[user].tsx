@@ -78,7 +78,7 @@ const UserSite: NextPage = () => {
   } catch (error) {
     return (
       <>
-        <LoadingSpinner />
+        <div />
       </>
     );
   }
@@ -90,7 +90,7 @@ const UserSite: NextPage = () => {
   if (!userList || !userList?.includes(githubUsername)) {
     return (
       <>
-        <LoadingSpinner />
+        <div />
       </>
     );
   }

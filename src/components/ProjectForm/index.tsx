@@ -1,10 +1,9 @@
-import { SignedIn, useUser } from "@clerk/nextjs";
-import { ChangeEvent, FormEvent, useEffect, useState } from "react";
+import { SignedIn } from "@clerk/nextjs";
+import { type ChangeEvent, type FormEvent, useState } from "react";
 import { api } from "~/utils/api";
 import { toast } from "react-hot-toast";
 
 const ProjectForm = () => {
-  const { user } = useUser();
 
   const [nameInput, setNameInput] = useState("");
   const [descriptionInput, setDescriptionInput] = useState("");

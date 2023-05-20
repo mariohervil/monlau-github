@@ -1,7 +1,7 @@
 import { createTRPCRouter, publicProcedure } from "~/server/api/trpc";
-import axios, { AxiosResponse } from "axios";
+import axios, { type AxiosResponse } from "axios";
 import z from "zod";
-import Repository from "~/interfaces/Repository";
+import type Repository from "~/interfaces/Repository";
 export const userRouter = createTRPCRouter({
   getAllProjects: publicProcedure.query(async ({ ctx }) => {
     if (ctx.currentUser?.userId === null) {
@@ -19,7 +19,7 @@ export const userRouter = createTRPCRouter({
 
   getGitHubProjects: publicProcedure
     .input(z.string())
-    .query(async ({ input, ctx }) => {
+    .query(async ({ input }) => {
       const GITHUB_URL_API = `https://api.github.com/users/${input}/repos`;
       const response: AxiosResponse = await axios.get(GITHUB_URL_API, {
         headers: {

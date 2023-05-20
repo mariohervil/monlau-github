@@ -3,6 +3,7 @@ import { FaPlusSquare } from "react-icons/fa";
 import { useRouter } from "next/router";
 const Header = () => {
   const router = useRouter();
+
   return (
     <header className="sticky top-0 flex items-center justify-between bg-white p-4 shadow">
       <h1 className="text-xl font-bold">My App</h1>
@@ -13,7 +14,16 @@ const Header = () => {
               <FaPlusSquare
                 size={22.5}
                 className={"cursor-pointer text-primary"}
-                onClick={async () => await router.push("/projects/add-project")}
+                onClick={() => {
+                  void router
+                    .push("/projects/add-project")
+                    .then(() => {
+                      console.log("pushed to add project");
+                    })
+                    .catch((err) => {
+                      console.log(err);
+                    });
+                }}
               />
             </li>
             <li>

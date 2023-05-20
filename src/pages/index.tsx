@@ -2,15 +2,11 @@
 import { type NextPage } from "next";
 import Head from "next/head";
 import {
-  SignIn,
   SignInButton,
   SignOutButton,
   useUser,
-  SignedIn,
   UserButton,
-  SignedOut,
 } from "@clerk/nextjs";
-import { api } from "~/utils/api";
 
 const UserSide = () => {
   const { user } = useUser();

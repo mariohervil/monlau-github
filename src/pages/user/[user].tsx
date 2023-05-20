@@ -1,11 +1,7 @@
-import { NextPage } from "next";
+import { type NextPage } from "next";
 import { useRouter } from "next/router";
 import { api } from "~/utils/api";
-import z from "zod";
-import { useUser } from "@clerk/nextjs";
 import Image from "next/image";
-import { User } from "@clerk/clerk-sdk-node";
-import { useEffect, useState } from "react";
 import { LoadingPage } from "~/components/Loading";
 interface UserProfileProps {
   username: string;
@@ -13,7 +9,6 @@ interface UserProfileProps {
 
 const UserProfile = (props: UserProfileProps) => {
   const { username } = props;
-  const [user, setUser] = useState<User | undefined>();
 
   const { data, isLoading: userLoading } =
     api.users.getUserInfoByUsername.useQuery(username);
@@ -73,7 +68,6 @@ const LoadingSpinner = () => {
 const UserSite: NextPage = () => {
   const router = useRouter();
   const { user } = router.query;
-  const userData = useUser();
   const userList = api.users.getUsernames.useQuery().data;
 
   const githubUsername = user as string;
@@ -100,7 +94,7 @@ const UserSite: NextPage = () => {
       </>
     );
   }
-  const goToGitHub = (repo: string) => (event: any) =>
+  const goToGitHub = (repo: string) => (event: MouseEvent) =>
     window.open(repo, "_blank");
 
   //  TODO: Users
@@ -126,7 +120,7 @@ const UserSite: NextPage = () => {
                 <div className="card-actions justify-end">
                   <button
                     className="btn-primary btn"
-                    onClick={goToGitHub(repo.html_url)}
+                    onClick={() => goToGitHub(repo.html_url)}
                   >
                     Ir al proyecto
                   </button>

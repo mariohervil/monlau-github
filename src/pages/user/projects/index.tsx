@@ -1,5 +1,5 @@
 import { useUser } from "@clerk/nextjs";
-import { NextPage } from "next";
+import { type NextPage } from "next";
 import Link from "next/link";
 import { api } from "~/utils/api";
 

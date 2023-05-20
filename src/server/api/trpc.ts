@@ -19,7 +19,6 @@ import { type CreateNextContextOptions } from "@trpc/server/adapters/next";
 import { prisma } from "~/server/db";
 
 import { getAuth, clerkClient } from "@clerk/nextjs/server";
-import { type User } from "@clerk/nextjs/api";
 type CreateContextOptions = Record<string, never>;
 
 /**

@@ -24,12 +24,13 @@ const UserProfile = (props: UserProfileProps) => {
     <>
       <div className="flex flex-col">
         <div className={"flex flex-row justify-center"}>
-          <Image
-            src={data?.profileImageUrl}
-            alt={"Profile Image"}
-            width={56}
-            height={56}
-          />
+          <div className={"overflow-hidden rounded-full"}>
+            <img
+              src={data?.profileImageUrl}
+              alt={"Profile Image"}
+              className={"h-40 w-40 rounded-full object-cover object-center"}
+            />
+          </div>
         </div>
       </div>
     </>

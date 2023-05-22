@@ -1,30 +1,22 @@
 import { SignedIn, UserButton } from "@clerk/nextjs";
 import { FaPlusSquare } from "react-icons/fa";
-import { useRouter } from "next/router";
+import Link from "next/link";
 const Header = () => {
-  const router = useRouter();
+
 
   return (
     <header className="sticky top-0 flex items-center justify-between bg-white p-4 shadow">
-      <h1 className="text-xl font-bold">My App</h1>
+      <h1 className="text-xl font-bold">Monlau Codes</h1>
       <nav>
         <SignedIn>
           <ul className="flex gap-8">
             <li className="self-center">
-              <FaPlusSquare
-                size={22.5}
-                className={"cursor-pointer text-primary"}
-                onClick={() => {
-                  void router
-                    .push("/projects/add-project")
-                    .then(() => {
-                      console.log("pushed to add project");
-                    })
-                    .catch((err) => {
-                      console.log(err);
-                    });
-                }}
-              />
+              <Link href={"/projects/add-project"}>
+                <FaPlusSquare
+                  size={22.5}
+                  className={"cursor-pointer text-primary"}
+                />
+              </Link>
             </li>
             <li>
               <UserButton />

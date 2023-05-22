@@ -3,6 +3,7 @@ import { useRouter } from "next/router";
 import { api } from "~/utils/api";
 import Image from "next/image";
 import { LoadingPage } from "~/components/Loading";
+import NotFoundPage from "~/components/404";
 interface UserProfileProps {
   username: string;
 }
@@ -22,7 +23,7 @@ const UserProfile = (props: UserProfileProps) => {
 
   return (
     <>
-      <div className="flex flex-col">
+      <div className="mt-4 flex flex-col gap-5">
         <div className={"flex flex-row justify-center"}>
           <div className={"overflow-hidden rounded-full"}>
             <img
@@ -32,37 +33,16 @@ const UserProfile = (props: UserProfileProps) => {
             />
           </div>
         </div>
+        <div className={"flex flex-row justify-center"}>
+          <span className={"text-3xl font-semibold"}>
+            {data?.firstName} {data?.lastName}
+          </span>
+        </div>
+        <div className={"flex flex-row justify-center"}>
+          <span className={"text-xl font-semibold"}>Descripción...</span>
+        </div>
       </div>
     </>
-  );
-};
-
-const LoadingSpinner = () => {
-  return (
-    <div className="align-center flex flex-col justify-center">
-      <div className="flex justify-center">
-        <svg
-          className="mx-4 h-6 w-6 animate-spin text-primary"
-          xmlns="http://www.w3.org/2000/svg"
-          fill="none"
-          viewBox="0 0 24 24"
-        >
-          <circle
-            className="opacity-25"
-            cx="12"
-            cy="12"
-            r="10"
-            stroke="currentColor"
-            strokeWidth="4"
-          ></circle>
-          <path
-            className="opacity-75"
-            fill="currentColor"
-            d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-3.647z"
-          ></path>
-        </svg>
-      </div>
-    </div>
   );
 };
 
@@ -91,7 +71,7 @@ const UserSite: NextPage = () => {
   if (!userList || !userList?.includes(githubUsername)) {
     return (
       <>
-        <div />
+        <NotFoundPage />
       </>
     );
   }

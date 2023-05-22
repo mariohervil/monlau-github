@@ -3,7 +3,6 @@ import { useRouter } from "next/router";
 import { api } from "~/utils/api";
 import Image from "next/image";
 import { LoadingPage } from "~/components/Loading";
-import NotFoundPage from "~/components/404";
 interface UserProfileProps {
   username: string;
 }
@@ -71,7 +70,7 @@ const UserSite: NextPage = () => {
   if (!userList || !userList?.includes(githubUsername)) {
     return (
       <>
-        <NotFoundPage />
+        <LoadingPage />
       </>
     );
   }

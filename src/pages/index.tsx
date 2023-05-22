@@ -32,7 +32,7 @@ const Home: NextPage = () => {
                         <span className="mb-2 mr-2 inline-block rounded-full bg-gray-200 px-3 py-1 text-sm font-semibold text-gray-700">
                           <a
                             key={user.id}
-                            href={`/user/ ${
+                            href={`/user/${
                               user.username ? user.username : ""
                             }`}
                           >

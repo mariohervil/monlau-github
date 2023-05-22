@@ -11,7 +11,7 @@ const Header = () => {
         <SignedIn>
           <ul className="flex gap-8">
             <li className="self-center">
-              <Link href={"/projects/add-project"}>
+              <Link href={"/add-project"}>
                 <FaPlusSquare
                   size={22.5}
                   className={"cursor-pointer text-primary"}

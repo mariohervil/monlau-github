@@ -66,7 +66,7 @@ const ProjectForm = () => {
       <div className={"flex flex-row justify-center p-5"}>
         <form
           className={
-            "xs:w-full w-full rounded-lg px-40 py-20 align-middle shadow-xl shadow-gray-300 xl:w-3/5 lg:w-full md:w-full"
+            "xs:w-full w-full rounded-lg px-40 py-20 align-middle shadow-xl shadow-gray-300 md:w-full lg:w-full xl:w-3/5"
           }
           onSubmit={(e) => handleSubmit(e)}
         >
@@ -118,36 +118,32 @@ const ProjectForm = () => {
             placeholder="Introduce una prioridad"
             onChange={(e) => setPriorityInput(e.target.valueAsNumber)}
           />
+          <div className={"flex flex-row"}>
+            <div className={"flex flex-col gap-4"}>
+              <label className="mb-2 block font-bold">Imagen:</label>
 
-          <label className="mb-2 block font-bold">Imagen:</label>
-          <input
-            type="file"
-            className="file-input-bordered file-input mb-4 w-full max-w-xs rounded-xl"
-            placeholder="Subir archivo"
-            accept="image/*"
-            name="image"
-            id="image"
-          />
-
-          <UploadButton<OurFileRouter>
-            endpoint="imageUploader"
-            onClientUploadComplete={(res) => {
-              // Do something with the response
-              console.log("Files: ", res);
-              const fileUrl = res?.find(
-                (file) => file !== undefined && file !== null
-              )?.fileUrl;
-              setImageURL(fileUrl);
-              toast.success("Imagen subida correctamente!");
-            }}
-            onUploadError={(error: Error) => {
-              // Do something with the error.
-              console.log(error);
-              toast.error(
-                "Ha fallado el envío! Por favor, inténtalo más tarde."
-              );
-            }}
-          />
+              <UploadButton<OurFileRouter>
+                endpoint="imageUploader"
+                multiple={false}
+                onClientUploadComplete={(res) => {
+                  // Do something with the response
+                  console.log("Files: ", res);
+                  const fileUrl = res?.find(
+                    (file) => file !== undefined && file !== null
+                  )?.fileUrl;
+                  setImageURL(fileUrl);
+                  toast.success("Imagen subida correctamente!");
+                }}
+                onUploadError={(error: Error) => {
+                  // Do something with the error.
+                  console.log(error);
+                  toast.error(
+                    "Ha fallado el envío! Por favor, inténtalo más tarde."
+                  );
+                }}
+              />
+            </div>
+          </div>
 
           <label className="label mb-10 flex cursor-pointer flex-row-reverse justify-end gap-4">
             <span className="label-text font-bold">Fijar?</span>

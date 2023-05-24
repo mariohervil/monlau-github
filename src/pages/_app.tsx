@@ -1,3 +1,4 @@
+import "@uploadthing/react/styles.css";
 import { type AppType } from "next/app";
 import { ClerkProvider } from "@clerk/nextjs";
 import { api } from "~/utils/api";
@@ -15,7 +16,7 @@ const MyApp: AppType = ({ Component, pageProps }) => {
           <meta name="description" content="github for students" />
           <link rel="icon" href="/favicon.ico" />
         </Head>
-        <Component {...pageProps} className={'scroll'}/>
+        <Component {...pageProps} className={"scroll"} />
         <Toaster position="bottom-center" />
       </Layout>
     </ClerkProvider>

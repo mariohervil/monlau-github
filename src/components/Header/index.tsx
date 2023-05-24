@@ -1,4 +1,4 @@
-import { SignedIn, UserButton } from "@clerk/nextjs";
+import { SignedIn, SignedOut, UserButton, SignInButton } from "@clerk/nextjs";
 import { FaPlusSquare } from "react-icons/fa";
 import Link from "next/link";
 const Header = () => {
@@ -23,6 +23,13 @@ const Header = () => {
             </li>
           </ul>
         </SignedIn>
+        <SignedOut>
+          <ul className="flex gap-8">
+            <li>
+              <SignInButton />
+            </li>
+          </ul>
+        </SignedOut>
       </nav>
     </header>
   );

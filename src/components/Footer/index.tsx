@@ -6,7 +6,13 @@ const Footer = () => {
   return (
     <footer className="footer footer-center bg-primary p-5 text-white">
       <div>
-        <Image src={"/rombo.png"} alt="Monlau logo" width={100} height={100} />
+        <Image
+          src={"/rombo.png"}
+          alt="Monlau logo"
+          width={100}
+          height={100}
+          loading="lazy"
+        />
 
         <p className="font-bold ">
           Monlau Codes <br />

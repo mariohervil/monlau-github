@@ -30,9 +30,9 @@ const ProjectList = () => {
               return (
                 <div
                   key={repo.id}
-                  className="mb-4 w-full sm:w-1/2 md:w-1/3 lg:w-1/4 xl:w-1/5"
+                  className="mb-4 w-full sm:w-1/2 md:w-1/3 lg:w-1/4 xl:w-1/5 rounded-xl"
                 >
-                  <div className="flex h-full max-w-sm flex-col overflow-hidden rounded shadow-lg">
+                  <div className="flex h-full max-w-sm flex-col overflow-hidden rounded-xl shadow-lg">
                     <div className="flex-grow px-6 py-4">
                       <div key={repo.id} className="mb-2 text-xl font-bold">
                         {repo.name}

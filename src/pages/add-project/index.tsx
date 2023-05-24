@@ -66,7 +66,7 @@ const ProjectForm = () => {
       <div className={"flex flex-row justify-center p-5"}>
         <form
           className={
-            "xs:w-full w-full rounded-lg px-40 py-20 align-middle shadow-xl shadow-gray-300 md:w-full lg:w-full xl:w-3/5"
+            "xs:w-full w-full rounded-xl px-40 py-20 align-middle shadow-xl shadow-gray-300 md:w-full lg:w-full xl:w-3/5"
           }
           onSubmit={(e) => handleSubmit(e)}
         >
@@ -78,7 +78,7 @@ const ProjectForm = () => {
             id="name"
             name="name"
             value={nameInput}
-            className="mb-4 w-full rounded-lg border px-3 py-2"
+            className="mb-4 w-full rounded-xl border px-3 py-2"
             placeholder="Introduce tu nombre"
             onChange={(e) => setNameInput(e.target.value)}
           />
@@ -90,7 +90,7 @@ const ProjectForm = () => {
             id="description"
             name="description"
             value={descriptionInput}
-            className="mb-4 w-full rounded-lg border px-3 py-2"
+            className="mb-4 w-full rounded-xl border px-3 py-2"
             placeholder="Introduce una descripción"
             onChange={(e) => setDescriptionInput(e.target.value)}
           />
@@ -102,7 +102,7 @@ const ProjectForm = () => {
             id="url"
             name="url"
             value={urlInput}
-            className="mb-4 w-full rounded-lg border px-3 py-2"
+            className="mb-4 w-full rounded-xl border px-3 py-2"
             placeholder="Introduce una URL"
             onChange={(e) => setUrlInput(e.target.value)}
           />
@@ -114,7 +114,7 @@ const ProjectForm = () => {
             id="priority"
             name="priority"
             value={priorityInput}
-            className="mb-4 w-full rounded-lg border px-3 py-2"
+            className="mb-4 w-full rounded-xl border px-3 py-2"
             placeholder="Introduce una prioridad"
             onChange={(e) => setPriorityInput(e.target.valueAsNumber)}
           />
@@ -160,7 +160,7 @@ const ProjectForm = () => {
           <div className={"flex flex-row justify-center"}>
             <button
               type="submit"
-              className={"btn-primary btn w-2/6 rounded-xl"}
+              className={"btn-primary btn w-2/6 rounded-xl text-white"}
             >
               Subir
             </button>

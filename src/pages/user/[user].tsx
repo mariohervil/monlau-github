@@ -3,6 +3,10 @@ import { useRouter } from "next/router";
 import { api } from "~/utils/api";
 import Image from "next/image";
 import { LoadingPage } from "~/components/Loading";
+import GitHubCard from "~/components/GitHubCard";
+import { useState } from "react";
+import ProjectCard from "~/components/ProjectCard";
+import GroupButtons from "~/components/GroupButtons";
 interface UserProfileProps {
   username: string;
 }
@@ -13,9 +17,6 @@ const UserProfile = (props: UserProfileProps) => {
   const { data, isLoading: userLoading } =
     api.users.getUserInfoByUsername.useQuery(username);
 
-  const projectList = api.projects.getByUserId.useQuery(
-    data?.id ? data?.id : ""
-  ).data;
   if (userLoading || !data)
     return (
       <div className="flex grow">
@@ -45,17 +46,6 @@ const UserProfile = (props: UserProfileProps) => {
         <div className={"flex flex-row justify-center"}>
           <span className={"text-xl font-semibold"}>Descripción...</span>
         </div>
-        {projectList?.map((project) => (
-          <div key={project.id} className={"flex flex-row justify-center"}>
-            <span className={"text-xl font-semibold"}>{project.name}</span>
-            <Image
-              src={project.imageUrl ? project.imageUrl : ""}
-              alt="Project Image"
-              width={100}
-              height={100}
-            />
-          </div>
-        ))}
       </div>
     </>
   );
@@ -64,11 +54,16 @@ const UserProfile = (props: UserProfileProps) => {
 const UserSite: NextPage = () => {
   const router = useRouter();
   const { user } = router.query;
+
+  const [shownProjects, setShownProjects] = useState("monlau");
   const userList = api.users.getUsernames.useQuery().data;
-
   const githubUsername = user as string;
+  const { data, isLoading: userLoading } =
+    api.users.getUserInfoByUsername.useQuery(githubUsername);
   let repos;
-
+  const projectList = api.projects.getByUserId.useQuery(
+    data?.id ? data?.id : ""
+  ).data;
   try {
     repos = api.users.getGitHubProjects.useQuery(githubUsername).data;
   } catch (error) {
@@ -78,11 +73,9 @@ const UserSite: NextPage = () => {
       </>
     );
   }
-
   if (!user || !user[0]) {
     return null;
   }
-
   if (!userList || !userList?.includes(githubUsername)) {
     return (
       <>
@@ -90,6 +83,12 @@ const UserSite: NextPage = () => {
       </>
     );
   }
+  if (userLoading || !data)
+    return (
+      <div className="flex grow">
+        <LoadingPage />
+      </div>
+    );
 
   //  TODO: Users
   //const projects = api.projects.getByUserId(user.user);
@@ -97,33 +96,24 @@ const UserSite: NextPage = () => {
   // TODO: Hay problemas con juntar proyectos del usuario y de github -> Es viable guardar información de los repositorios en GitHub? En otra tabla de Prisma?
 
   return (
-    <div className="h-screen">
+    <div className="h-max min-h-screen">
       <div className="flex flex-row justify-center">
         <UserProfile username={githubUsername} />
       </div>
-      <div className="container mx-auto flex flex-wrap justify-center">
-        {repos?.map((repo) => {
-          return (
-            <div
-              key={repo.id}
-              className="card m-2 flex-1 bg-base-100 shadow-xl lg:card-side"
-            >
-              <div className="card-body">
-                <h2 className="card-title">{repo.name}</h2>
-                <p>{repo.description}</p>
-                <div className="card-actions justify-end">
-                  <a
-                    target="_blank"
-                    href={repo.html_url}
-                    className={"btn-primary btn"}
-                  >
-                    Ir al proyecto
-                  </a>
-                </div>
-              </div>
-            </div>
-          );
-        })}
+      <div className="flex flex-row justify-center">
+        <GroupButtons
+          shownProjects={shownProjects}
+          setShownProjects={setShownProjects}
+        />
+      </div>
+      <div className="container m-10 mx-auto grid justify-center gap-5 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3">
+        {shownProjects === "github"
+          ? repos?.map((repo) => {
+              return <GitHubCard key={repo.id} repo={repo} />;
+            })
+          : projectList?.map((project) => {
+              return <ProjectCard key={project.id} project={project} />;
+            })}
       </div>
     </div>
   );

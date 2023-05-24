@@ -15,7 +15,7 @@ const NotFoundPage = () => {
           </p>
 
           <Link href="/">
-            <button className="focus:shadow-outline-primary inline rounded-lg border border-transparent bg-primary px-4 py-2 text-sm font-medium leading-5 text-white shadow transition-colors duration-150 hover:bg-primary-focus focus:outline-none active:bg-blue-600">
+            <button className="focus:shadow-outline-primary inline rounded-xl border border-transparent bg-primary px-4 py-2 text-sm font-medium leading-5 text-white shadow transition-colors duration-150 hover:bg-primary-focus focus:outline-none active:bg-blue-600">
               Volver a la página principal
             </button>
           </Link>

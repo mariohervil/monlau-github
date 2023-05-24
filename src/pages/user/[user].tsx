@@ -90,8 +90,6 @@ const UserSite: NextPage = () => {
       </>
     );
   }
-  const goToGitHub = (repo: string) => (_event: MouseEvent) =>
-    window.open(repo, "_blank");
 
   //  TODO: Users
   //const projects = api.projects.getByUserId(user.user);
@@ -114,12 +112,13 @@ const UserSite: NextPage = () => {
                 <h2 className="card-title">{repo.name}</h2>
                 <p>{repo.description}</p>
                 <div className="card-actions justify-end">
-                  <button
-                    className="btn-primary btn"
-                    onClick={() => goToGitHub(repo.html_url)}
+                  <a
+                    target="_blank"
+                    href={repo.html_url}
+                    className={"btn-primary btn"}
                   >
                     Ir al proyecto
-                  </button>
+                  </a>
                 </div>
               </div>
             </div>

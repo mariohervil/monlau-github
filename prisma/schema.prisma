@@ -18,6 +18,7 @@ model Project {
     description String?  @db.VarChar(255)
     url         String?  @db.VarChar(255)
     priority    Int?     @default(5) @db.Integer
+    imageUrl    String?  @db.VarChar(255)
     ownerId     String
     pinned      Boolean? @db.Boolean
     createdAt   DateTime @default(now())

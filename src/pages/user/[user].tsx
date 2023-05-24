@@ -13,6 +13,9 @@ const UserProfile = (props: UserProfileProps) => {
   const { data, isLoading: userLoading } =
     api.users.getUserInfoByUsername.useQuery(username);
 
+  const projectList = api.projects.getByUserId.useQuery(
+    data?.id ? data?.id : ""
+  ).data;
   if (userLoading || !data)
     return (
       <div className="flex grow">
@@ -25,10 +28,12 @@ const UserProfile = (props: UserProfileProps) => {
       <div className="mt-4 flex flex-col gap-5">
         <div className={"flex flex-row justify-center"}>
           <div className={"overflow-hidden rounded-full"}>
-            <img
+            <Image
               src={data?.profileImageUrl}
               alt={"Profile Image"}
               className={"h-40 w-40 rounded-full object-cover object-center"}
+              width={10000}
+              height={1000}
             />
           </div>
         </div>
@@ -40,6 +45,17 @@ const UserProfile = (props: UserProfileProps) => {
         <div className={"flex flex-row justify-center"}>
           <span className={"text-xl font-semibold"}>Descripción...</span>
         </div>
+        {projectList?.map((project) => (
+          <div key={project.id} className={"flex flex-row justify-center"}>
+            <span className={"text-xl font-semibold"}>{project.name}</span>
+            <Image
+              src={project.imageUrl ? project.imageUrl : ""}
+              alt="Project Image"
+              width={100}
+              height={100}
+            />
+          </div>
+        ))}
       </div>
     </>
   );
@@ -74,7 +90,7 @@ const UserSite: NextPage = () => {
       </>
     );
   }
-  const goToGitHub = (repo: string) => (event: MouseEvent) =>
+  const goToGitHub = (repo: string) => (_event: MouseEvent) =>
     window.open(repo, "_blank");
 
   //  TODO: Users

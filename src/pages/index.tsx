@@ -21,17 +21,17 @@ const Home: NextPage = () => {
                   >
                     <div className="flex h-full max-w-sm flex-col overflow-hidden rounded shadow-lg">
                       <div className="flex-grow px-6 py-4">
-                        <p key={user.id} className="text-base text-gray-700">
+                        <p className="text-base text-gray-700">
                           <img src={user.profileImageUrl} alt="" />
                         </p>
-                        <div key={user.id} className="mb-2 text-xl font-bold">
+                        <div className="mb-2 text-xl font-bold">
                           {user.firstName} {user.lastName}
                         </div>
                       </div>
                       <div className="mt-auto px-6 pb-2 pt-4">
                         <span className="mb-2 mr-2 inline-block rounded-full bg-gray-200 px-3 py-1 text-sm font-semibold text-gray-700">
                           <a
-                            key={user.id}
+                            
                             href={`/user/${
                               user.username ? user.username : ""
                             }`}

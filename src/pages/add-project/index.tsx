@@ -2,15 +2,16 @@ import { SignedIn } from "@clerk/nextjs";
 import { type ChangeEvent, type FormEvent, useState } from "react";
 import { api } from "~/utils/api";
 import { toast } from "react-hot-toast";
+import { UploadButton } from "@uploadthing/react";
+import { type OurFileRouter } from "~/server/uploadthing";
 
 const ProjectForm = () => {
-
   const [nameInput, setNameInput] = useState("");
   const [descriptionInput, setDescriptionInput] = useState("");
   const [urlInput, setUrlInput] = useState("");
   const [priorityInput, setPriorityInput] = useState(0);
   const [pinnedIsChecked, setPinnedIsChecked] = useState(false);
-
+  const [imageURL, setImageURL] = useState<string>();
   const handleCheckboxChange = (event: ChangeEvent<HTMLInputElement>) => {
     setPinnedIsChecked(event.target.checked);
   };
@@ -25,6 +26,7 @@ const ProjectForm = () => {
         setUrlInput("");
         setPriorityInput(0);
         setPinnedIsChecked(false);
+        setImageURL("");
         void ctx.projects.getAll.invalidate();
       },
       onError: (e) => {
@@ -39,7 +41,13 @@ const ProjectForm = () => {
 
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    if (!nameInput || !descriptionInput || !urlInput || !priorityInput) {
+    if (
+      !nameInput ||
+      !descriptionInput ||
+      !urlInput ||
+      !priorityInput ||
+      !imageURL
+    ) {
       toast.error("Por favor, rellena todos los campos.");
       return;
     }
@@ -49,6 +57,7 @@ const ProjectForm = () => {
       url: urlInput,
       priority: priorityInput,
       pinned: pinnedIsChecked,
+      imageUrl: imageURL,
     });
   };
 
@@ -59,7 +68,7 @@ const ProjectForm = () => {
           className={
             "xs:w-full w-full rounded-lg px-40 py-20 align-middle shadow-xl shadow-gray-300 xl:w-2/5"
           }
-        onSubmit={(e) => handleSubmit(e)}
+          onSubmit={(e) => handleSubmit(e)}
         >
           <label htmlFor="name" className="mb-2 block font-bold">
             Nombre:
@@ -120,6 +129,26 @@ const ProjectForm = () => {
             id="image"
           />
 
+          <UploadButton<OurFileRouter>
+            endpoint="imageUploader"
+            onClientUploadComplete={(res) => {
+              // Do something with the response
+              console.log("Files: ", res);
+              const fileUrl = res?.find(
+                (file) => file !== undefined && file !== null
+              )?.fileUrl;
+              setImageURL(fileUrl);
+              toast.success("Imagen subida correctamente!");
+            }}
+            onUploadError={(error: Error) => {
+              // Do something with the error.
+              console.log(error);
+              toast.error(
+                "Ha fallado el envío! Por favor, inténtalo más tarde."
+              );
+            }}
+          />
+
           <label className="label mb-10 flex cursor-pointer flex-row-reverse justify-end gap-4">
             <span className="label-text font-bold">Fijar?</span>
             <input
@@ -136,7 +165,6 @@ const ProjectForm = () => {
             <button
               type="submit"
               className={"btn-primary btn w-2/6 rounded-xl"}
-              
             >
               Subir
             </button>

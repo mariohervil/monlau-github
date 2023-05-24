@@ -41,7 +41,6 @@ export const projectRouter = createTRPCRouter({
           ownerId: input,
         },
         orderBy: {
-          pinned: "desc",
           priority: "asc",
         },
       });
@@ -56,6 +55,7 @@ export const projectRouter = createTRPCRouter({
         url: z.string().url(),
         priority: z.number(),
         pinned: z.boolean(),
+        imageUrl: z.string().url(),
       })
     )
     .mutation(async ({ input, ctx }) => {
@@ -69,6 +69,7 @@ export const projectRouter = createTRPCRouter({
           priority,
           pinned,
           ownerId: ctx.currentUser?.userId,
+          imageUrl: input.imageUrl,
         },
       });
       return projects;

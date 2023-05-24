@@ -6,12 +6,16 @@ await import("./src/env.mjs");
 
 /** @type {import("next").NextConfig} */
 const config = {
+  experimental: {
+    esmExternals: false,
+  },
   reactStrictMode: true,
   images: {
     domains: [
       "www.gravatar.com",
       "images.clerk.dev",
       "avatars.githubusercontent.com",
+      "uploadthing.com",
     ],
   },
   /**

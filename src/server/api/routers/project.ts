@@ -40,9 +40,14 @@ export const projectRouter = createTRPCRouter({
         where: {
           ownerId: input,
         },
-        orderBy: {
-          priority: "asc",
-        },
+        orderBy: [
+          {
+            priority: "asc",
+          },
+          {
+            pinned: "desc",
+          },
+        ],
       });
       return projects;
     }),

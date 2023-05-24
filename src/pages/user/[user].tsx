@@ -97,7 +97,7 @@ const UserSite: NextPage = () => {
   // TODO: Hay problemas con juntar proyectos del usuario y de github -> Es viable guardar información de los repositorios en GitHub? En otra tabla de Prisma?
 
   return (
-    <>
+    <div className="h-screen">
       <div className="flex flex-row justify-center">
         <UserProfile username={githubUsername} />
       </div>
@@ -125,7 +125,7 @@ const UserSite: NextPage = () => {
           );
         })}
       </div>
-    </>
+    </div>
   );
 };
 

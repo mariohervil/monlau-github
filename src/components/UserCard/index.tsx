@@ -9,9 +9,9 @@ interface UserCardProps {
 
 //TODO: TARJETA DE USUARIO
 const UserCard = ({ user }: UserCardProps) => {
-  const pinnedProjects = api.projects.getPinnedProjectsByUserId.useQuery(
-    user.id
-  ).data;
+  const pinnedProjects = api.projects.getPinnedProjectsByUserId
+    .useQuery(user.id)
+    .data?.slice(0, 2);
 
   return (
     <article className="rounded-xl border bg-white p-4 text-white shadow-xl">

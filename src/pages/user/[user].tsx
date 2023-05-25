@@ -51,7 +51,7 @@ const UserProfile = (props: UserProfileProps) => {
     api.users.getDescription.useQuery(username ? username : "").data?.text ||
     "";
 
-  if (userLoading || !data || !isLoaded || !user)
+  if (userLoading || !data)
     return (
       <div className="flex grow">
         <LoadingPage />
@@ -78,7 +78,7 @@ const UserProfile = (props: UserProfileProps) => {
           </span>
         </div>
         <div className={"flex flex-row justify-center"}>
-          {user.id === data?.id ? (
+          {user?.id === data?.id ? (
             <div className={"flex flex-row justify-center gap-6 self-center align-middle"}>
               {isEditing ? (
                 <>

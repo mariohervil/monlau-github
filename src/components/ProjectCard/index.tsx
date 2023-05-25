@@ -8,7 +8,7 @@ const ProjectCard = ({ project }: ProjectCardProps) => {
   return (
     <>
       <a
-        className="relative flex items-start justify-between rounded-xl border border-gray-100 p-4 shadow-xl sm:p-6 lg:p-8"
+        className="relative flex items-start justify-between rounded-xl border border-gray-100 bg-white p-4 shadow-xl sm:p-6 lg:p-8"
         href={project.url ? project.url : "/"}
         target="_blank"
         rel="noopener noreferrer"
@@ -21,7 +21,6 @@ const ProjectCard = ({ project }: ProjectCardProps) => {
               width={200}
               height={200}
               className="text-center"
-
             />
           </div>
           <h3 className="mt-4 text-lg font-bold text-gray-900 sm:text-xl">

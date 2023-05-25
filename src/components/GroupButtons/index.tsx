@@ -13,7 +13,7 @@ const GroupButtons = ({
     <div className="flex w-full justify-center py-12">
       <div
         id="filters"
-        className="flex items-center rounded border-2 border-gray-200 bg-transparent"
+        className="flex items-center rounded border-2 border-gray-200 bg-gray-100"
       >
         <div
           onClick={() => setShownProjects("monlau")}

@@ -8,7 +8,7 @@ const GitHubCard = ({ repo }: CardProps) => {
   return (
     <>
       <a
-        className="relative flex items-start justify-between rounded-xl border border-gray-100 p-4 shadow-xl sm:p-6 lg:p-8"
+        className="relative flex items-start justify-between rounded-xl border border-gray-100 p-4 shadow-xl sm:p-6 lg:p-8 bg-white"
         href={repo.html_url}
         target="_blank"
         rel="noopener noreferrer"

@@ -7,17 +7,51 @@ import GitHubCard from "~/components/GitHubCard";
 import { useState } from "react";
 import ProjectCard from "~/components/ProjectCard";
 import GroupButtons from "~/components/GroupButtons";
+import NotFoundPage from "~/components/404";
+import { useUser } from "@clerk/nextjs";
+import { HiPencilAlt } from "react-icons/hi";
+import toast from "react-hot-toast";
+import { FaCheck, FaTimes } from "react-icons/fa";
 interface UserProfileProps {
   username: string;
 }
 
 const UserProfile = (props: UserProfileProps) => {
+  const [description, setDescription] = useState("");
+  const [isEditing, setIsEditing] = useState(false);
   const { username } = props;
-
+  const { user, isLoaded } = useUser();
   const { data, isLoading: userLoading } =
     api.users.getUserInfoByUsername.useQuery(username);
+  const ctx = api.useContext();
 
-  if (userLoading || !data)
+  const { mutate, isLoading } = api.users.insertDescription.useMutation({
+    onSuccess: () => {
+      toast.success("Descripción actualizada!");
+      setIsEditing(false);
+      void ctx.users.getDescription.invalidate();
+    },
+    onError: (e) => {
+      const errorMessage = e.data?.zodError?.fieldErrors.content;
+
+      if (!description || description === "") {
+        toast.error("Por favor, introduce la descripción!");
+        return;
+      } else if (errorMessage && errorMessage[0]) {
+        toast.error(errorMessage[0]);
+      } else if (description.length > 255) {
+        toast.error("La descripción no puede tener más de 255 caracteres!");
+      } else {
+        toast.error("Ha fallado el envío! Por favor, inténtalo más tarde.");
+      }
+    },
+  });
+
+  const receivedDescription =
+    api.users.getDescription.useQuery(username ? username : "").data?.text ||
+    "";
+
+  if (userLoading || !data || !isLoaded || !user)
     return (
       <div className="flex grow">
         <LoadingPage />
@@ -44,7 +78,55 @@ const UserProfile = (props: UserProfileProps) => {
           </span>
         </div>
         <div className={"flex flex-row justify-center"}>
-          <span className={"text-xl font-semibold"}>Descripción...</span>
+          {user.id === data?.id ? (
+            <div className={"flex flex-row justify-center gap-6 self-center align-middle"}>
+              {isEditing ? (
+                <>
+                  <input
+                    type="text"
+                    className={`w-full rounded-xl p-2 focus:outline-none ${
+                      isEditing ? "bg-primary-content" : "bg-transparent"
+                    }`}
+                    readOnly={!isEditing}
+                    value={description}
+                    onChange={(e) => setDescription(e.target.value)}
+                  />
+
+                  <FaCheck
+                    size={20}
+                    className={"cursor-pointer text-green-600"}
+                    onClick={() => {
+                      mutate({
+                        text: description,
+                        user: user.username ? user.username : "",
+                      });
+                    }}
+                  />
+
+                  <FaTimes
+                    size={20}
+                    className={"cursor-pointer text-error"}
+                    onClick={() => setIsEditing(!isEditing)}
+                  />
+                </>
+              ) : (
+                <>
+                  <span className={"text-xl"}>
+                    {receivedDescription || "Descripción..."}
+                  </span>
+                  <HiPencilAlt
+                    size={20}
+                    className={"cursor-pointer"}
+                    onClick={() => setIsEditing(!isEditing)}
+                  />
+                </>
+              )}
+            </div>
+          ) : (
+            <span className={"text-xl font-semibold"}>
+              {receivedDescription || "Descripción..."}
+            </span>
+          )}
         </div>
       </div>
     </>
@@ -60,43 +142,19 @@ const UserSite: NextPage = () => {
   const githubUsername = user as string;
   const { data, isLoading: userLoading } =
     api.users.getUserInfoByUsername.useQuery(githubUsername);
-  let repos;
+  const repos = api.users.getGitHubProjects.useQuery(githubUsername).data;
   const projectList = api.projects.getByUserId.useQuery(
     data?.id ? data?.id : ""
   ).data;
-  try {
-    repos = api.users.getGitHubProjects.useQuery(githubUsername).data;
-  } catch (error) {
-    return (
-      <>
-        <div />
-      </>
-    );
-  }
-  if (!user || !user[0]) {
-    return null;
-  }
-  if (!userList || !userList?.includes(githubUsername)) {
-    return (
-      <>
-        <LoadingPage />
-      </>
-    );
-  }
-  if (userLoading || !data)
-    return (
-      <div className="flex grow">
-        <LoadingPage />
-      </div>
-    );
 
-  //  TODO: Users
-  //const projects = api.projects.getByUserId(user.user);
-  // const repos = api.users.getGitHubProjects.useQuery(githubUsername).data;
-  // TODO: Hay problemas con juntar proyectos del usuario y de github -> Es viable guardar información de los repositorios en GitHub? En otra tabla de Prisma?
+  if (!user || !user[0]) {
+    return <LoadingPage />;
+  } else if (!userList?.includes(githubUsername) && userList) {
+    return <NotFoundPage />;
+  } else if (userLoading || !data) return <LoadingPage />;
 
   return (
-    <div className="h-max min-h-screen">
+    <div className="h-max min-h-screen bg-gray-200 pb-6">
       <div className="flex flex-row justify-center">
         <UserProfile username={githubUsername} />
       </div>
@@ -106,7 +164,7 @@ const UserSite: NextPage = () => {
           setShownProjects={setShownProjects}
         />
       </div>
-      <div className="container m-10 mx-auto grid justify-center gap-5 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3">
+      <div className="container m-10 mx-auto grid justify-center gap-5 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 bg-gray-200">
         {shownProjects === "github"
           ? repos?.map((repo) => {
               return <GitHubCard key={repo.id} repo={repo} />;

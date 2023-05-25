@@ -63,10 +63,10 @@ const ProjectForm = () => {
 
   return (
     <SignedIn>
-      <div className={"flex flex-row justify-center p-5"}>
+      <div className={"flex flex-row justify-center p-5 bg-gray-200"}>
         <form
           className={
-            "xs:w-full w-full rounded-xl px-40 py-20 align-middle shadow-xl shadow-gray-300 md:w-full lg:w-full xl:w-3/5"
+            "xs:w-full w-full rounded-xl px-40 py-20 align-middle shadow-xl shadow-gray-300 md:w-full lg:w-full xl:w-3/5 bg-white"
           }
           onSubmit={(e) => handleSubmit(e)}
         >

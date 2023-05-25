@@ -26,3 +26,10 @@ model Project {
 
     @@index([ownerId])
 }
+
+model Description {
+    id   String @id @default(cuid())
+    text String @db.VarChar(255)
+    user String @db.VarChar(255)
+    createdAt DateTime @default(now())
+}

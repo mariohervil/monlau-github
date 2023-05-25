@@ -1,50 +1,29 @@
 /* eslint-disable @next/next/no-img-element */
 import { type NextPage } from "next";
+import UserCard from "~/components/UserCard";
 import { api } from "~/utils/api";
 
 const Home: NextPage = () => {
   //TODO: ORLA DE LOS ALUMNOS
 
   const { data: userList } = api.users.getUserList.useQuery();
-
+  // const projects = api.projects.getPinnedProjectsByUserId.useQuery().data;
   return (
     <>
-      <div className={"flex flex-col justify-center h-max min-h-screen"}>
+      <div
+        className={
+          "flex h-max min-h-screen flex-col justify-center bg-gray-200 pb-6"
+        }
+      >
         <div className={"flex flex-row justify-center"}>
-          <div className={"container"}>
-            <div className={"flex flex-row justify-center"}>
-              {userList?.map((user) => {
-                return (
-                  <div
-                    key={user.id}
-                    className="mb-4 w-full sm:w-1/2 md:w-1/3 lg:w-1/4 xl:w-1/5"
-                  >
-                    <div className="flex h-full max-w-sm flex-col overflow-hidden rounded shadow-lg">
-                      <div className="flex-grow px-6 py-4">
-                        <p className="text-base text-gray-700">
-                          <img src={user.profileImageUrl} alt="" />
-                        </p>
-                        <div className="mb-2 text-xl font-bold">
-                          {user.firstName} {user.lastName}
-                        </div>
-                      </div>
-                      <div className="mt-auto px-6 pb-2 pt-4">
-                        <span className="mb-2 mr-2 inline-block rounded-full bg-gray-200 px-3 py-1 text-sm font-semibold text-gray-700">
-                          <a
-                            
-                            href={`/user/${
-                              user.username ? user.username : ""
-                            }`}
-                          >
-                            Ir al perfil
-                          </a>
-                        </span>
-                      </div>
-                    </div>
-                  </div>
-                );
-              })}
-            </div>
+          <div
+            className={
+              "container m-10 mx-auto grid justify-center gap-5 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3"
+            }
+          >
+            {userList?.map((user) => {
+              return <UserCard user={user} key={user.id} />;
+            })}
           </div>
         </div>
       </div>

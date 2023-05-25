@@ -16,7 +16,7 @@ const MyApp: AppType = ({ Component, pageProps }) => {
           <meta name="description" content="github for students" />
           <link rel="icon" href="/favicon.ico" />
         </Head>
-        <Component {...pageProps} className={"scroll"} />
+        <Component {...pageProps}/>
         <Toaster position="bottom-center" />
       </Layout>
     </ClerkProvider>

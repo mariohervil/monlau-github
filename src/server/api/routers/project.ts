@@ -52,6 +52,26 @@ export const projectRouter = createTRPCRouter({
       return projects;
     }),
 
+  getPinnedProjectsByUserId: publicProcedure
+    .input(z.string())
+    .query(async ({ input, ctx }) => {
+      const projects = await ctx.prisma.project.findMany({
+        where: {
+          ownerId: input,
+          pinned: true,
+        },
+        orderBy: [
+          {
+            priority: "asc",
+          },
+          {
+            pinned: "desc",
+          },
+        ],
+      });
+      return projects;
+    }),
+
   inserProject: protectedProcedure
     .input(
       z.object({

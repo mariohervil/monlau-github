@@ -7,6 +7,7 @@ const Home: NextPage = () => {
   //TODO: ORLA DE LOS ALUMNOS
 
   const { data: userList } = api.users.getUserList.useQuery();
+  console.log(userList);
   // const projects = api.projects.getPinnedProjectsByUserId.useQuery().data;
   return (
     <>

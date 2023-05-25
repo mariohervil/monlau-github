@@ -79,7 +79,11 @@ const UserProfile = (props: UserProfileProps) => {
         </div>
         <div className={"flex flex-row justify-center"}>
           {user?.id === data?.id ? (
-            <div className={"flex flex-row justify-center gap-6 self-center align-middle"}>
+            <div
+              className={
+                "flex flex-row justify-center gap-6 self-center align-middle"
+              }
+            >
               {isEditing ? (
                 <>
                   <input
@@ -164,7 +168,7 @@ const UserSite: NextPage = () => {
           setShownProjects={setShownProjects}
         />
       </div>
-      <div className="container m-10 mx-auto grid justify-center gap-5 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 bg-gray-200">
+      <div className="container m-10 mx-auto grid justify-center gap-5 bg-gray-200 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3">
         {shownProjects === "github"
           ? repos?.map((repo) => {
               return <GitHubCard key={repo.id} repo={repo} />;

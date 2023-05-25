@@ -11,8 +11,6 @@ export const userRouter = createTRPCRouter({
     if (ctx.currentUser?.userId === null) {
       return null;
     }
-    console.log("object");
-    console.log(ctx.currentUser.user?.externalAccounts[0]?.emailAddress);
     const projects = await ctx.prisma.project.findMany({
       where: {
         ownerId: ctx.currentUser?.userId,

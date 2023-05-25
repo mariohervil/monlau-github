@@ -49,7 +49,9 @@ export const userRouter = createTRPCRouter({
     }),
 
   getUserList: publicProcedure.query(async ({ ctx }) => {
-    const userList = await ctx.clerk.users.getUserList();
+    const userList = await ctx.clerk.users.getUserList({
+      limit: 30,
+    });
     return userList;
   }),
 

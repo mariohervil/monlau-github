@@ -25,7 +25,7 @@ const UserProfile = (props: UserProfileProps) => {
     api.users.getUserInfoByUsername.useQuery(username);
   const ctx = api.useContext();
 
-  const { mutate, isLoading } = api.users.insertDescription.useMutation({
+  const { mutate } = api.users.insertDescription.useMutation({
     onSuccess: () => {
       toast.success("Descripción actualizada!");
       setIsEditing(false);

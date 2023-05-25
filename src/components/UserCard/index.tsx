@@ -23,7 +23,10 @@ const UserCard = ({ user }: UserCardProps) => {
         />
         <div>
           <h3 className="text-lg font-medium text-black">
-            {user.firstName} {user.lastName}
+            {user.firstName && user.lastName}
+            {!user.firstName && !user.lastName && user.emailAddresses[0]
+              ? user.emailAddresses[0].emailAddress
+              : ""}
           </h3>
           <div className="flow-root">
             <ul className="-m-1 flex flex-wrap">

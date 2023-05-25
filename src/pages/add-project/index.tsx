@@ -27,6 +27,7 @@ const ProjectForm = () => {
         setPriorityInput(0);
         setPinnedIsChecked(false);
         setImageURL("");
+        toast.success("Proyecto añadido correctamente!");
         void ctx.projects.getAll.invalidate();
       },
       onError: (e) => {
@@ -63,10 +64,10 @@ const ProjectForm = () => {
 
   return (
     <SignedIn>
-      <div className={"flex flex-row justify-center p-5 bg-gray-200"}>
+      <div className={"flex flex-row justify-center bg-gray-200 p-5"}>
         <form
           className={
-            "xs:w-full w-full rounded-xl px-40 py-20 align-middle shadow-xl shadow-gray-300 md:w-full lg:w-full xl:w-3/5 bg-white"
+            "xs:w-full w-full rounded-xl bg-white px-40 py-20 align-middle shadow-xl shadow-gray-300 md:w-full lg:w-full xl:w-3/5"
           }
           onSubmit={(e) => handleSubmit(e)}
         >
